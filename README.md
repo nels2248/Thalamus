@@ -46,3 +46,10 @@ This contains 4 Python scripts, each designed to handle a different data process
 ## Final Output
 Here is the ouptput as .png file if you don't want to open the .html that was also created
 ![Cumulative Line Chart](single_colored_cumulative_line.png)
+
+## Findings/Analysis
+Based upon the chart above and data found here are is what I found:
+1. 99 Total Blog Posts from March of 2019 to May of 2025
+2. The first 20 blogs were related to program and residency
+3. Their was one unique cluster of blogs related to signaling and preference in June of 2022
+4. The majority of the last ~20 blog posts were related to AAMC 
