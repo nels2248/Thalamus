@@ -4,6 +4,8 @@ from matplotlib.lines import Line2D
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.cluster import KMeans
 import numpy as np
+from sklearn.feature_extraction.text import TfidfVectorizer, ENGLISH_STOP_WORDS
+
 
 # 1. Load data
 df = pd.read_excel("thalamus_blog_content.xlsx")
@@ -12,8 +14,10 @@ df = pd.read_excel("thalamus_blog_content.xlsx")
 df["published_date"] = pd.to_datetime(df["published_date"])
 
 # 3. Vectorize text
+# Combine default English stop words with your custom ones
+custom_stop_words = list(ENGLISH_STOP_WORDS.union({'thalamus'}))
 texts = df["content"].fillna("")
-vectorizer = TfidfVectorizer(stop_words='english', max_features=1000)
+vectorizer = TfidfVectorizer(stop_words=custom_stop_words, max_features=1000)
 X = vectorizer.fit_transform(texts)
 
 # 4. Cluster with KMeans
@@ -27,7 +31,7 @@ terms = vectorizer.get_feature_names_out()
 order_centroids = kmeans.cluster_centers_.argsort()[:, ::-1]
 cluster_names = {}
 for i in range(num_clusters):
-    top_words = [terms[ind] for ind in order_centroids[i, :5]]
+    top_words = [terms[ind] for ind in order_centroids[i, :2]]
     cluster_names[i] = ", ".join(top_words)
 
 # 6. Assign year-month
@@ -119,7 +123,7 @@ html_content = f"""
 </html>
 """
 
-with open("single_colored_cumulative_line.html", "w", encoding="utf-8") as f:
+with open("index.html", "w", encoding="utf-8") as f:
     f.write(html_content)
 
 print(f"\n✅ Created single-line cumulative chart with color-coded clusters.")
